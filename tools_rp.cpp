@@ -4,6 +4,7 @@
 #include "pico/stdlib.h"
 #include "hardware/clocks.h"
 #include "hardware/flash.h"
+#include "hardware/gpio.h"
 #include "hardware/watchdog.h"
 
 #if __has_include("hardware/psram.h")
@@ -58,6 +59,74 @@ void fcpu_cmd(int argc, char * argv[]) {
         uint32_t fcpu_mhz = clock_get_hz(clk_sys) / 1000000;
         printf("%lu MHz\n", fcpu_mhz);
     }
+}
+
+void gpio_dir_cmd(int argc, char * argv[]) {
+    if(argc != 3) {
+        printf("num[DEC] dir[in=0, out=1]\n");
+        return;
+    }
+
+    uint8_t pin_num;
+    if(parse_uint(argv[1], &pin_num)) return;
+    printf("1\n");
+
+    uint8_t pin_dir;
+    if(parse_uint(argv[2], &pin_dir)) return;
+    printf("2\n");
+
+    printf("3\n");
+    gpio_init(pin_num);
+    printf("4\n");
+    gpio_set_dir(pin_num, pin_dir);
+    printf("5\n");
+    printf("pin_num: %u, pin_dir: %u\n", pin_num, pin_dir);
+    print_ok();
+}
+
+void gpio_out_cmd(int argc, char * argv[]) {
+    if(argc != 3) {
+        printf("num[DEC] state[0/1]\n");
+        return;
+    }
+
+    uint8_t pin_num;
+    if(parse_uint(argv[1], &pin_num)) return;
+    printf("1\n");
+
+    uint8_t pin_state;
+    if(parse_uint(argv[2], &pin_state, 10, uint8_t(1))) return;
+    printf("2\n");
+
+    gpio_put(pin_num, bool(pin_state));
+    printf("3\n");
+    printf("pin_num: %u, pin_state: %u\n", pin_num, pin_state);
+    print_ok();
+}
+
+void gpio_in_cmd(int argc, char * argv[]) {
+    if(argc != 2) {
+        printf("num[DEC]\n");
+        return;
+    }
+
+    uint8_t pin_num;
+    if(parse_uint(argv[1], &pin_num)) return;
+
+    bool pin_state = gpio_get(pin_num);
+
+    printf("Pin %u state: %u\n", pin_num, pin_state);
+}
+
+void test_cmd(int argc, char * argv[]) {
+    static bool state = false;
+
+    gpio_init(25);                    // Inicjalizacja pinu (ustawia domyślny multiplexer)
+    gpio_set_dir(25, GPIO_OUT);       // Ustawienie kierunku: WYJŚCIE
+    gpio_put(25, state);
+    
+    state = !state;
+    print_ok();
 }
 
 }
