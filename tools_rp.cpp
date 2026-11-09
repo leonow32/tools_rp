@@ -119,6 +119,8 @@ void gpio_in_cmd(int argc, char * argv[]) {
 }
 
 void test_cmd(int argc, char * argv[]) {
+    ExecutionTimer tim = ExecutionTimer();
+
     static bool state = false;
 
     gpio_init(25);                    // Inicjalizacja pinu (ustawia domyślny multiplexer)
@@ -127,6 +129,12 @@ void test_cmd(int argc, char * argv[]) {
     
     state = !state;
     print_ok();
+
+    tim.end();
+
+    sleep_ms(100);
+
+    tim.print();
 }
 
 }
