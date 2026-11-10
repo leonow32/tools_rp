@@ -7,6 +7,7 @@ namespace tools_rp {
 	void reset_cmd(int argc, char * argv[]);
 	void mem_cmd(int argc, char * argv[]);
 	void fcpu_cmd(int argc, char * argv[]);
+	void serial_number_cmd(int argc, char * argv[]);
 
 	void gpio_dir_cmd(int argc, char * argv[]);
 	void gpio_out_cmd(int argc, char * argv[]);

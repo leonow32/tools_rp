@@ -2,6 +2,7 @@
 	{"reset",					tools_rp::reset_cmd},
 	{"mem",						tools_rp::mem_cmd},
 	{"fcpu",					tools_rp::fcpu_cmd},
+	{"sn",						tools_rp::serial_number_cmd},
 
 	{"gpio_dir",				tools_rp::gpio_dir_cmd},
 	{"gpio_out",				tools_rp::gpio_out_cmd},
